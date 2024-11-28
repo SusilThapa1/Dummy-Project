@@ -7,10 +7,10 @@ import { useRouter } from "next/navigation";
 export const Sidebar = () => {
   const [openSidebar, setOpenSidebar] = useState(false);
   const [activeLink, setActiveLink] = useState("");
-  const lists = ["Home", "Projects", "Courses", "FAQ", "Contacts"];
+  const lists = ["Home", "Products", "Courses", "FAQ", "Contacts"];
   const routes = {
     Home: "/",
-    Projects: "/Projects",
+    Products: "/Products",
     Courses: "/Courses",
     FAQ: "/FAQ",
     Contacts: "/Contacts",

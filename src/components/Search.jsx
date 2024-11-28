@@ -6,7 +6,7 @@ export const Search = () => {
       <input
         type="text"
         placeholder="Search here..."
-        className="px-2 py-1 rounded-lg outline-none   placeholder:text-gray-800"
+        className="px-2 py-1 rounded-lg outline-none text-black  placeholder:text-gray-800"
       />
     </div>
   );

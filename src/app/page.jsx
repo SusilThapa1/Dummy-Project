@@ -1,5 +1,6 @@
 "use client";
 import Button from "@/components/Button";
+import Product from "@/components/Product";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
@@ -19,7 +20,11 @@ export default function Home() {
           <span className="text-sky-500">Frontend Developer</span>
         </p>
         <div className="flex self-start gap-5">
-          <Button text="Projects" bgColor="bg-sky-500" />
+          <Button
+            onClick={() => router.push("/Products")}
+            text="Products"
+            bgColor="bg-sky-500"
+          />
           <Button text="Login" bgColor="bg-white" onClick={handleLoginClick} />
         </div>
       </div>
