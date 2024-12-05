@@ -45,24 +45,20 @@ const AsyncAwait = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Country List</h1>
-      <ul>
+    <div className="w-full flex flex-col justify-center items-center gap-5">
+      <h1 className="font-bold text-2xl ">Country List</h1>
+      <ul className="w-full grid grid-cols-4 justify-center items-center  gap-10">
         {countryList.map((country, index) => (
           <li
             key={index}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginBottom: "10px",
-            }}
+            className=" flex justify-center flex-col gap-5 items-center"
           >
             <img
               src={country.flag}
               alt={`${country.name} flag`}
-              style={{ width: "30px", height: "20px", marginRight: "10px" }}
+              className="w-20 h-20  "
             />
-            {country.name}
+            <h1 className="text-center">{country.name}</h1>
           </li>
         ))}
       </ul>

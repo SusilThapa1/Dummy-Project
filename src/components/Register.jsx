@@ -1,14 +1,20 @@
 "use client";
 
-import Data from "./country.json";
 import Button from "./Button";
 import { useFormik } from "formik";
-
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { IoMdEye } from "react-icons/io";
+import { IoMdEyeOff } from "react-icons/io";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const router = useRouter();
+  const [isTypePassword, setIsTypePassword] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const handlePass = () => {
+    setIsTypePassword(!isTypePassword);
+  };
   const initialValues = {
     name: "",
     email: "",
@@ -17,9 +23,17 @@ const Register = () => {
     country: "",
     password: "",
   };
-  const onSubmit = (values) => {
-    console.log("Form data:", values);
-    router.push("/Products");
+  const onSubmit = async (values) => {
+    setIsSubmitting(true);
+    try {
+      console.log("Form data:", values);
+      toast.success("Registered Successfully");
+      router.replace("/Products");
+    } catch (error) {
+      toast.error("Registration failed");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   const validate = (values) => {
     const errors = {};
@@ -85,138 +99,166 @@ const Register = () => {
   }, []);
 
   return (
-    <div className="flex justify-center items-center gap-32   text-lg  ">
-      <form
-        onSubmit={formik.handleSubmit}
-        className="flex flex-col w-fit p-5 gap-4 text-black"
-      >
-        <label htmlFor="name">Name</label>
-        <input
-          className="rounded-md p-2 outline-none"
-          type="text"
-          placeholder="Enter the name"
-          id="name"
-          name="name"
-          value={formik.values.name}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-        />
-        {formik.errors.name && formik.touched.name ? (
-          <span className="text-red-600">{formik.errors.name}</span>
-        ) : null}
-
-        <label htmlFor="email">Email</label>
-        <input
-          className="rounded-md p-2 outline-none"
-          type="email"
-          placeholder="something@gmail.com"
-          id="email"
-          name="email"
-          value={formik.values.email}
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-        />
-        {formik.errors.email && formik.touched.email ? (
-          <span className="text-red-600">{formik.errors.email}</span>
-        ) : null}
-
-        <label>Gender</label>
-        <div className="flex gap-1">
-          <label htmlFor="male">Male</label>
-          <input
-            type="radio"
-            name="gender"
-            id="male"
-            value="male"
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            readOnly
-          />
-
-          <label htmlFor="female">Female</label>
-          <input
-            onBlur={formik.handleBlur}
-            onChange={formik.handleChange}
-            type="radio"
-            name="gender"
-            id="female"
-            value="female"
-            readOnly
-          />
-        </div>
-        {formik.errors.gender && formik.touched.gender ? (
-          <span className="text-red-600">{formik.errors.gender}</span>
-        ) : null}
-
-        <label htmlFor="phone">Phone</label>
-        <input
-          className="rounded-md p-2 outline-none"
-          type="text"
-          placeholder="only phone number"
-          id="phone"
-          name="phone"
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-          value={formik.values.phone}
-        />
-        {formik.errors.phone && formik.touched.phone ? (
-          <span className="text-red-600">{formik.errors.phone}</span>
-        ) : null}
-
-        <label htmlFor="country">Country</label>
-        <select
-          className="rounded-md p-2 outline-none"
-          name="country"
-          id="country"
-          value={formik.values.country}
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-          placeholder="Choose Country"
+    <div className="flex justify-center items-center w-full text-lg  ">
+      <div className="flex flex-col justify-center items-center ">
+        <form
+          onSubmit={formik.handleSubmit}
+          className="flex flex-col  p-5 gap-2 text-black"
         >
-          <option value="" disabled hidden>
-            Choose Country
-          </option>
-          {/* {Data.map((country, index) => (
+          <label htmlFor="name" className="text-gray-200">
+            Name
+          </label>
+          <input
+            className="rounded-md p-2 outline-none"
+            type="text"
+            placeholder="Enter the name"
+            id="name"
+            name="name"
+            value={formik.values.name}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {formik.errors.name && formik.touched.name ? (
+            <span className="text-red-600">{formik.errors.name}</span>
+          ) : null}
+
+          <label htmlFor="email" className="text-gray-200">
+            Email
+          </label>
+          <input
+            className="rounded-md p-2 outline-none"
+            type="email"
+            placeholder="something@gmail.com"
+            id="email"
+            name="email"
+            value={formik.values.email}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+          />
+          {formik.errors.email && formik.touched.email ? (
+            <span className="text-red-600">{formik.errors.email}</span>
+          ) : null}
+
+          <label className="text-gray-200">Gender</label>
+          <div className="flex gap-1">
+            <label htmlFor="male" className="text-gray-200">
+              Male
+            </label>
+            <input
+              type="radio"
+              name="gender"
+              id="male"
+              value="male"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              readOnly
+            />
+
+            <label htmlFor="female" className="text-gray-200">
+              Female
+            </label>
+            <input
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              type="radio"
+              name="gender"
+              id="female"
+              value="female"
+              readOnly
+            />
+          </div>
+          {formik.errors.gender && formik.touched.gender ? (
+            <span className="text-red-600">{formik.errors.gender}</span>
+          ) : null}
+
+          <label htmlFor="phone" className="text-gray-200">
+            Phone
+          </label>
+          <input
+            className="rounded-md p-2 outline-none"
+            type="text"
+            placeholder="only phone number"
+            id="phone"
+            name="phone"
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            value={formik.values.phone}
+          />
+          {formik.errors.phone && formik.touched.phone ? (
+            <span className="text-red-600">{formik.errors.phone}</span>
+          ) : null}
+
+          <label htmlFor="country" className="text-gray-200">
+            Country
+          </label>
+          <select
+            className="rounded-md p-2 outline-none"
+            name="country"
+            id="country"
+            value={formik.values.country}
+            onBlur={formik.handleBlur}
+            onChange={formik.handleChange}
+            placeholder="Choose Country"
+          >
+            <option value="" disabled hidden>
+              Choose Country
+            </option>
+            {/* {Data.map((country, index) => (
             <option value={country.name} key={index}>
               {country.name}
             </option>
           ))} */}
-          {countryList.map((country, index) => (
-            <option className="flex items-center g-5" key={index}>
-              {country}
-            </option>
-          ))}
-        </select>
-        {formik.errors.country && formik.touched.country ? (
-          <span className="text-red-600">{formik.errors.country}</span>
-        ) : null}
+            {countryList.map((country, index) => (
+              <option
+                className="flex items-center g-5"
+                value={country}
+                key={index}
+              >
+                {country}
+              </option>
+            ))}
+          </select>
+          {formik.errors.country && formik.touched.country ? (
+            <span className="text-red-600">{formik.errors.country}</span>
+          ) : null}
 
-        <label htmlFor="password">Password</label>
-        <input
-          className="rounded-md p-2 outline-none"
-          title="Must be atleast one uppercase letter, atleast one lowercase letter, atleast one digit, atleast one special characterr and atleast 8 characters long"
-          type="password"
-          placeholder="Enter password"
-          id="password"
-          name="password"
-          value={formik.values.password}
-          onBlur={formik.handleBlur}
-          onChange={formik.handleChange}
-        />
-        {formik.errors.password && formik.touched.password ? (
-          <span className="text-red-600">{formik.errors.password}</span>
-        ) : null}
+          <label htmlFor="password" className="text-gray-200">
+            Password
+          </label>
+          <div className="flex w-full relative  items-center ">
+            <input
+              className="rounded-md p-2 outline-none w-full"
+              title="Must be atleast one uppercase letter, atleast one lowercase letter, atleast one digit, atleast one special characterr and atleast 8 characters long"
+              type={isTypePassword ? "password" : "text"}
+              placeholder="Enter password"
+              id="password"
+              name="password"
+              value={formik.values.password}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+            />
+            <span
+              onClick={handlePass}
+              className="absolute right-3  "
+              title={isTypePassword ? "Show password" : "Hide password"}
+            >
+              {isTypePassword ? <IoMdEyeOff /> : <IoMdEye />}
+            </span>
+          </div>
+          {formik.errors.password && formik.touched.password ? (
+            <span className="text-red-600">{formik.errors.password}</span>
+          ) : null}
 
-        <Button text="Register" bgColor="bg-white" />
-      </form>
-      <div className=" flex flex-col items-start justify-center gap-4">
-        <h1>Form Data:</h1>
-        <p>Name: {formik.values.name}</p>
-        <p>Email: {formik.values.email}</p>
-        <p>Phone number: {formik.values.phone}</p>
-        <p>Country: {formik.values.country}</p>
-        <p>Gender: {formik.values.gender}</p>
-        <p>Password: {formik.values.password}</p>
+          <Button type="submit" text="Register" bgColor="bg-sky-500" />
+        </form>
+        <div className="w-full px-5">
+          <Button
+            type="button"
+            onClick={() => router.push("/Login")}
+            text="Already have an account?"
+            bgColor="bg-white"
+          />
+        </div>
       </div>
     </div>
   );
